@@ -23,6 +23,8 @@
 > git commit -m "注释信息"   
 >
 > git push git@github.com:用户名/仓库名.git
+>
+> git push git@github.com:zzx051900/C-.git
 
 ## 二.修改文件（初学，理解很浅）
 
