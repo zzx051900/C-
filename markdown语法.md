@@ -41,13 +41,13 @@
 # 二. 常用快捷键
 
 1. 代码块：Ctrl+Shift+K
-2. 后退一步（撤销）：Ctrl+z
-3. 前进一步：Ctrl+Y
-4. 引用：Ctrl+Shift+Q
-5. 几级标题：Ctrl+数字
-6. 提高标题级别：Ctrl+=
-7. 减低标题级别：Ctrl+-
-8. 代码句：Ctrl+Shift+`
+2. 代码句：Ctrl+Shift+`
+3. 后退一步（撤销）：Ctrl+z
+4. 前进一步：Ctrl+Y
+5. 引用：Ctrl+Shift+Q
+6. 几级标题：Ctrl+数字
+7. 提高标题级别：Ctrl+=
+8. 减低标题级别：Ctrl+-
 9. 结束缩进：Ctrl+[
 10. 选中当前行：Ctrl+L
 11. 跳转到有内容的末尾：Ctrl+End
