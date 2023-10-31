@@ -26,4 +26,7 @@
 24. 恢复已关闭的网页：Ctrl+Shift+T
 25. 查看文件属性：Alt+鼠标双击文件  /  Alt+Enter
 26. 切换屏幕/标签：Alt + Tab
-27. 
+27. VS新建项目：Ctrl+Shift+N
+28. VS新建源文件：Ctrl+Shift+A
+29. VS快速保存：Ctrl+Shitf+S
+30. 返回上一级文件夹：Backspace
