@@ -1,5 +1,7 @@
 # windows常用快捷键
 
+## windows
+
 1. 撤消：Ctrl + Z
 2. 启动任务管理器：Ctrl + Alt + Del
 3. 关闭当前使用的应用程序：Alt + F4
@@ -26,7 +28,28 @@
 24. 恢复已关闭的网页：Ctrl+Shift+T
 25. 查看文件属性：Alt+鼠标双击文件  /  Alt+Enter
 26. 切换屏幕/标签：Alt + Tab
-27. VS新建项目：Ctrl+Shift+N
-28. VS新建源文件：Ctrl+Shift+A
-29. VS快速保存：Ctrl+Shitf+S
-30. 返回上一级文件夹：Backspace
+
+## Visual Studio
+
+1. VS新建项目：Ctrl+Shift+N
+2. VS新建源文件：Ctrl+Shift+A
+3. VS快速保存：Ctrl+Shitf+S
+4. 返回上一级文件夹：Backspace
+
+##  bilibili
+
+1. b站视频切换上一集：[      切换下一集：]
+
+## markdown
+
+1. 代码块：Ctrl+Shift+K
+2. 代码句：Ctrl+Shift+`
+3. 后退一步（撤销）：Ctrl+z
+4. 前进一步：Ctrl+Y
+5. 引用：Ctrl+Shift+Q
+6. 几级标题：Ctrl+数字
+7. 提高标题级别：Ctrl+=
+8. 减低标题级别：Ctrl+-
+9. 结束缩进：Ctrl+[
+10. 选中当前行：Ctrl+L
+11. 跳转到有内容的末尾：Ctrl+End
