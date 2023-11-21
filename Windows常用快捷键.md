@@ -35,6 +35,22 @@
 2. VS新建源文件：Ctrl+Shift+A
 3. VS快速保存：Ctrl+Shitf+S
 4. 返回上一级文件夹：Backspace
+5. 代码自动对齐：Ctrl+K+F
+6. 撤销：Ctrl+Z
+7. 反撤销：Ctrl+Y
+8. 快速隐藏当前代码段：Ctrl+M+M
+9. 注释：Ctrl+K+C
+10. 取消注释：Ctrl+K+U
+11. 查找：Ctrl+F
+12. 替换：Ctrl+H
+13. 开始执行不调试：Ctrl+F5
+
+### 疑难杂症：
+
+1. 光标选中后变成方块，输入时无法正常输入，会覆盖掉后面的内容？
+   - 解决：解决方法是按一下insert键，不同品牌的笔记本，上面的[insert](https://so.csdn.net/so/search?q=insert&spm=1001.2101.3001.7020)是不同的，有的写的是ins，和insert也是一样的，一般在del（delete）旁边的，在键盘的右上角，个别电脑使用这个功能需要同时按shift或者Fn
+
+
 
 ##  bilibili
 
