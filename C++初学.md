@@ -1,4 +1,4 @@
-- 网课（黑马程序员）（共314节）：1，2，3，4，5，6，7，8，9，10，11，12，13，14，15，16，17，18，19，20，21，22，23，24，25，26，27，28，29，30，31，32，33，34，35，36，37，38，39，40，41，42，43，44，45，46，47，48，49，50，51，52，53，54，55，56，57，58，59，60，61，62，63，64，65，66，67，68，69，70，71，72，73，74，75，76，77，78，79，80，81，82，83，84，85，86，87，88，89，90，91，92，93，94，95，96，97，98，99，100，101，102，103，104，105，106，107，108，109，110，110，111，112，113，114，115，116，117，118，119，120，121，122，...，127，...，143，144
+- 网课（黑马程序员）（共314节）：1，2，3，4，5，6，7，8，9，10，11，12，13，14，15，16，17，18，19，20，21，22，23，24，25，26，27，28，29，30，31，32，33，34，35，36，37，38，39，40，41，42，43，44，45，46，47，48，49，50，51，52，53，54，55，56，57，58，59，60，61，62，63，64，65，66，67，68，69，70，71，72，73，74，75，76，77，78，79，80，81，82，83，84，85，86，87，88，89，90，91，92，93，94，95，96，97，98，99，100，101，102，103，104，105，106，107，108，109，110，110，111，112，113，114，115，116，117，118，119，120，121，122，...，127，128，129，130，131，132，133，134，135，136，137，138，139，140，...，143，144
 - 课程安排：
   - 第一阶段：C++基础入门，对C++有初步了解
     - 案例：通讯录管理系统
@@ -3341,21 +3341,182 @@
 - 示例：
 
   - ```c++
+    #include<iostream>
+    #include<string>
+    using namespace std;
+    
+    class Base
+    {
+    public:
+    	int m_A;
+    protected:
+    	int m_B;
+    private:
+    	int m_C;
+    };
+    
+    class Son :public Base
+    {
+    public:
+    	int m_D;
+    };
+    
+    void test01()
+    {
+    	cout << "Son所占内存空间：" << sizeof(Son) << endl;
+    }
+    
+    
+    int main()
+    {
+    	test01();
+    
+    	system("pause");
+    	return 0;
+    }
     ```
+  
+- 利用开发人员命令提示工具查看对象模型：
 
-  - 
+  - Vs2013 tools，找开发人员命令提示工具
+  - 右击项目中的cpp文件，查看具体路径
+  - 输入所在盘，跳转盘符：`E:`
+  - 查看命名：cl /d1 reportSingleClassLayout类名 "//键入Tab"所属文件名
+
 
 
 #### （4）继承中构造和析构顺序
 
 - 子类继承父类后，当创建子类对象时，也会调用父类的构造函数
+
 - 问题：父类和子类的构造和析构顺序是谁先谁后？
+
+  - 构造：先构造父类，再构造子类
+  - 析构：先析构子类，再析构父类
+
+- 示例：
+
+  - ```c++
+    #include<iostream>
+    #include<string>
+    using namespace std;
+    
+    int i = 0;
+    
+    class Base
+    {
+    public:
+    	Base()
+    	{
+    		cout << "Base的构造函数" << endl;
+    		i++;
+    		cout << i << endl;
+    	}
+    	~Base()
+    	{
+    		cout << "Base的析构函数" << endl;
+    	}
+    };
+    
+    class Son :public Base
+    {
+    public:
+    	Son()
+    	{
+    		cout << "Son的构造函数" << endl;
+    	}
+    	~Son()
+    	{
+    		cout << "Son的析构函数" << endl;
+    	}
+    };
+    
+    void test01()
+    {
+    	Base b;
+    	Son s;
+    }
+    
+    
+    int main()
+    {
+    	test01();
+    
+    	system("pause");
+    	return 0;
+    }
+    ```
+
 
 #### （5）继承中同名成员处理方法
 
 - 问题：当子类与父类出现同名成员时，如何通过子类对象，访问到子类和父类中同名的数据呢？
   - 访问子类同名成员，直接访问即可
   - 访问父类同名成员，需要加作用域
+  
+- 示例：
+
+  - ```c++
+    #include<iostream>
+    #include<string>
+    using namespace std;
+    
+    class Base
+    {
+    public:
+    	Base()
+    	{
+    		m_A = 100;
+    	}
+    	void func()
+    	{
+    		cout << "Base的func函数调用" << endl;
+    	}
+    	void func(int a)
+    	{
+    		cout << "Base的func(int a)函数调用" << endl;
+    	}
+    	int m_A;
+    };
+    
+    class Son :public Base
+    {
+    public:
+    	Son()
+    	{
+    		m_A = 200;
+    	}
+    	void func()
+    	{
+    		cout << "Son的func函数调用" << endl;
+    	}
+    	int m_A;
+    };
+    
+    void test01()
+    {
+    	Son s;
+    	cout << s.m_A << endl;	//直接访问，访问的是子类同名成员
+    	cout << s.Base::m_A << endl;	//访问父类同名成员，需要加作用域
+    	s.func();	//子类中无与父类同名的函数时，默认直接调用父类的成员函数；子类有时，默认调用子类的同名成员函数
+    	s.Base::func();	//访问父类同名成员函数，需要加作用域
+    	//s.func(100);	//会报错：因为如果子类出现和父类同名的成员函数，子类的同名成员会隐藏掉父类中所有同名成员函数
+    	s.Base::func(100);
+    }
+    
+    int main()
+    {
+    	test01();
+    
+    	system("pause");
+    	return 0;
+    }
+    ```
+
+- 总结：
+
+  - 子类出现和父类同名的成员函数，子类的同名成员会隐藏掉父类中所有同名成员函数，加作用域可以访问父类同名函数
+
 
 #### （6）继承同名静态成员处理方式
 
@@ -3363,13 +3524,147 @@
   - 静态成员和非静态成员出现同名，处理方式一致
     - 访问子类同名成员，直接访问即可
     - 访问父类同名成员，需要加作用域
+  
+- 示例：
+
+  - ```c++
+    #include<iostream>
+    #include<string>
+    using namespace std;
+    
+    class Base
+    {
+    public:
+    	static void func()
+    	{
+    		cout << "Base的func" << endl;
+    	}
+    	static void func(int a)
+    	{
+    		cout << "Base的func(int a)" << endl;
+    	}
+    	static int m_A;
+    };
+    int Base::m_A = 100;
+    
+    class Son :public Base
+    {
+    public:
+    	static void func()
+    	{
+    		cout << "Son的func" << endl;
+    	}
+    	static int m_A;
+    };
+    int Son::m_A = 200;
+    
+    //同名静态成员属性
+    void test01()
+    {
+    	//1.通过对象访问
+    	Son s;
+    	cout << s.m_A << endl;
+    	cout << s.Base::m_A << endl;
+    	//2.通过类名访问
+    	cout << Son ::m_A << endl;
+    	cout << Base::m_A << endl;	//通过父类访问父类中的m_A
+    	cout << Son::Base::m_A << endl;	//通过子类访问父类中的m_A	第一个::表示通过类名访问，第二个::表示访问父类的作用域
+    }
+    
+    //同名静态成员函数
+    void test02()
+    {
+    	//1.通过对象访问
+    	Son s;
+    	s.func();	//子类没有时，默认正常调用父类的func 子类有时，调用子类的func
+    	s.Base::func();
+    	//2.通过类名访问
+    	Son::func();
+    	Son::Base::func();
+    	//Son::func(100);	//报错
+    	Son::Base::func(100);
+    }
+    
+    int main()
+    {
+    	test01();
+    	test02();
+    
+    	system("pause");
+    	return 0;
+    }
+    ```
+
+- 总结：同名静态成员处理方法和非静态处理方式一样，只不过有两种访问方式（通过对象和通过类名）
 
 #### （7）多继承语法
 
 - C++允许一个类继承多个类
+
 - 语法：`class 子类 : 继承方式 父类1 , 继承方式 父类2...`
+
 - 多继承可能会引发父类中有同名成员出现，需要加作用域区分
+
 - C++实际开发中不建议用多继承
+
+- 示例：
+
+  - ```c++
+    #include<iostream>
+    #include<string>
+    using namespace std;
+    
+    class Base1
+    {
+    public:
+    	Base1()
+    	{
+    		m_A = 100;
+    	}
+    	int m_A;
+    };
+    
+    class Base2
+    {
+    public:
+    	Base2()
+    	{
+    		
+    		m_A = 200;
+    		m_B = 200;
+    	}
+    	int m_A;
+    	int m_B;
+    };
+    
+    class Son :public Base1 , public Base2
+    {
+    public:
+    	Son()
+    	{
+    		m_C = 300;
+    	}
+    	int m_C;
+    };
+    
+    void test01()
+    {
+    	Son s;
+    	cout << "sizeof(Son) = " << sizeof(Son) << endl;
+    	//cout << s.m_A << endl;	//报错，父类中出现了同名成员。需要加作用域区分
+    	cout << "Base1的m_A:" << s.Base1::m_A << endl;
+    	cout << "Base2的m_A:" << s.Base2::m_A << endl;
+    }
+    
+    int main()
+    {
+    	test01();
+    
+    	system("pause");
+    	return 0;
+    }
+    ```
+
 
 #### （8）菱形继承
 
@@ -3377,18 +3672,160 @@
   - 两个派生类继承同一个基类
   - 又有某个类同时继承两个派生类
   - 这种继承被称为菱形继承，或钻石继承
+  
+- 菱形继承问题：
+
+  - 子a继承了父类的数据，子b也继承了父类的数据，当孙使用时，就会产生二义性
+  - 孙继承自父类的数据继承了两份，而实际上这份数据我们只需要一份即可
+
+- 示例：
+
+  - ```c++
+    #include<iostream>
+    #include<string>
+    using namespace std;
+    
+    class Animal	//动物类
+    {
+    public:
+    	int m_Age;
+    };
+    //利用虚继承 解决菱形问题继承的问题
+    //继承之前，加上关键字virtual变为虚继承
+    //Animal类称为 虚基类
+    
+    class Sheep :virtual public Animal	//羊
+    {
+    public:	
+    };
+    
+    class LuoTuo :virtual public Animal	//骆驼
+    {
+    public:
+    };
+    
+    class YangTuo :public Sheep, public LuoTuo	//羊驼
+    {
+    public:
+    };
+    
+    void test01()
+    {
+    	YangTuo yt;
+    	//yt.m_Age = 20;	//报错：不明确
+    	//当菱形继承时，两个父类具有相同数据，需要加作用域区分
+    	yt.Sheep::m_Age = 10;
+    	yt.LuoTuo::m_Age = 11;
+    	cout << "yt.Sheep::m_Age:" << yt.Sheep::m_Age << endl;
+    	cout << "yt.LuoTuo::m_Age:" << yt.LuoTuo::m_Age << endl;
+    	cout << "yt.m_Age:" << yt.m_Age << endl;
+    }
+    
+    int main()
+    {
+    	test01();
+    
+    	system("pause");
+    	return 0;
+    }
+    ```
+
+- 总结：
+
+  - 菱形继承带来的主要问题是子类继承俩份相同的数据，导致资源浪费以及毫无意义
+  - 利用虚继承可以解决菱形继承问题
+
 
 ### 7.多态
 
 #### （1）多态的基本概念
 
 - 多态时C++面向对象三大特性之一
+
 - 多态分为两大类：
   - 静态多态：函数重载和运算符重载属于静态多态，复用函数名
   - 动态多态：派生类和虚函数实现运行时多态
+    - 动态多态满足条件：
+      	1. 有继承关系	
+       	2. 子类要重写父类中的虚函数
+           - **重写**：函数返回值类型 函数名 形参列表 完全相同
+    - 动态多态的使用：父类的指针或引用指向子类对象
+  
 - 静态多态和动态多态区别：
   - 静态多态的函数地址早绑定 - 编译阶段确定函数地址
   - 动态多态的函数地址晚绑定 - 运行阶段确定函数地址
+  
+- 示例：
+
+  - ```c++
+    #include<iostream>
+    #include<string>
+    using namespace std;
+    
+    class Animal	//动物类
+    {
+    public:
+    	virtual void speak()	//虚函数
+    	{
+    		cout << "动物在说话" << endl;
+    	}
+    };
+    
+    class Cat :public Animal
+    {
+    public:
+    	void speak()
+    	{
+    		cout << "小猫在说话" << endl;
+    	}
+    };
+    
+    class Dog :public Animal
+    {
+    public:
+    	void speak()
+    	{
+    		cout << "小狗在说话" << endl;
+    	}
+    };
+    
+    //地址早绑定	在编译阶段确定函数地址
+    //如果想执行让猫说话，那么这个函数地址就不能提前绑定，需要在运行阶段进行绑定，地址晚绑定
+    //动态多态满足条件：1.有继承关系	2.子类要重写父类中的虚函数
+    //重写：函数返回值类型 函数名 形参列表完全相同
+    void dospeak(Animal &animal)	//Animal &animal = cat;
+    {
+    	animal.speak();
+    }
+    
+    void test01()
+    {
+    	Cat cat;
+    	dospeak(cat);
+    	Dog dog;
+    	dospeak(dog);
+    }
+    
+    int main()
+    {
+    	test01();
+    
+    	system("pause");
+    	return 0;
+    }
+    ```
+
+- 多态的原理剖析：
+
+  - vfpter  ---  虚函数（表）指针
+    - v  ---  virtual
+    - f  ---  function
+    - ptr --- pointer
+
+  - vftable ---  虚函数表
+  - 当子类重写父类的虚函数，子类中的虚函数表内部会替换成子类的虚函数地址
+  - 当父类的指针或引用指向子类对象时，发生多态
+
 
 #### （2）多态案例1  -  计算机类
 
@@ -3398,21 +3835,294 @@
   - 代码组织结构清晰
   - 可读性强
   - 利于前期和后期的拓展和维护
+  
+- 文件：
+
+- 代码：
+
+  - ```c++
+    #include<iostream>
+    #include<string>
+    using namespace std;
+    
+    //分别利用普通写法和多态写法实现计算器
+    
+    //普通写法
+    class Calculator
+    {
+    public:
+    	int getResult(string oper)
+    	{
+    		if (oper == "+")
+    		{
+    			return m_Num1 + m_Num2;
+    		}
+    		else if (oper == "-")
+    		{
+    			return m_Num1 - m_Num2;
+    		}
+    		else if (oper == "*")
+    		{
+    			return m_Num1 * m_Num2;
+    		}
+    		//如果要提供新的功能，还需要修改源码
+    		//而在真实的开发中提倡一种原则：开闭原则（对拓展进行开发，对修改进行关闭）
+    	}
+    	int m_Num1;
+    	int m_Num2;
+    };
+    
+    void test01()
+    {
+    	Calculator c;
+    	c.m_Num1 = 10;
+    	c.m_Num2 = 20;
+    	cout << c.m_Num1 << " + " << c.m_Num2 << " = " << c.getResult("+") << endl;
+    	cout << c.m_Num1 << " - " << c.m_Num2 << " = " << c.getResult("-") << endl;
+    	cout << c.m_Num1 << " * " << c.m_Num2 << " = " << c.getResult("*") << endl;
+    }
+    
+    //用多态实现计算器
+    //多态带来的好处：1.组织结构清晰	2.可读性强	3.对于前期和后期拓展以及维护性高
+    
+    //实现计算器抽象类
+    class AbstractCalculator
+    {
+    public:
+    	virtual int getResult()	//虚函数，在子类进行重写
+    	{
+    		return 0;
+    	}
+    	int m_Num1;
+    	int m_Num2;
+    };
+    
+    //加法计算器类
+    class AddClaculator :public AbstractCalculator
+    {
+    public:
+    	int getResult()
+    	{
+    		return m_Num1 + m_Num2;;
+    	}
+    };
+    
+    //减法计算器类
+    class SubClaculator :public AbstractCalculator
+    {
+    public:
+    	int getResult()
+    	{
+    		return m_Num1 - m_Num2;;
+    	}
+    };
+    
+    //乘法计算器类
+    class MulClaculator :public AbstractCalculator
+    {
+    public:
+    	int getResult()
+    	{
+    		return m_Num1 * m_Num2;;
+    	}
+    };
+    
+    void test02()
+    {
+    	//加法运算
+    	AbstractCalculator *abc = new AddClaculator;
+    	abc->m_Num1 = 10;
+    	abc->m_Num2 = 20;
+    	cout << abc->m_Num1 << " + " << abc->m_Num2 << " = " << abc->getResult()  << endl;
+    	delete abc;	//堆区开辟的数据要销毁
+    	//减法运算
+    	abc = new SubClaculator;
+    	abc->m_Num1 = 10;
+    	abc->m_Num2 = 20;
+    	cout << abc->m_Num1 << " - " << abc->m_Num2 << " = " << abc->getResult() << endl;
+    	delete abc;	//堆区开辟的数据要销毁
+    	//乘法运算
+    	abc = new MulClaculator;
+    	abc->m_Num1 = 10;
+    	abc->m_Num2 = 20;
+    	cout << abc->m_Num1 << " * " << abc->m_Num2 << " = " << abc->getResult() << endl;
+    	delete abc;	//堆区开辟的数据要销毁
+    }
+    
+    int main()
+    {
+    	test01();
+    	test02();
+    
+    	system("pause");
+    	return 0;
+    }
+    ```
+
+- 总结：
+
+  - C++开发中提倡利用多态设计程序架构，因为多态优点很多
+  - 多态带来的好处：
+    	1. 组织结构清晰	
+    	1. 可读性强	
+    	1. 对于前期和后期拓展以及维护性高
+
 
 #### （3）纯虚函数和抽象类
 
 - 在多态中，通常父类中虚函数的实现是无意义的，主要都是调用子类重写的内容，因此可以将虚函数改为纯虚函数
+
 - 纯虚函数语法：`virtual 返回值类型 函数名(参数列表) = 0;`
-- 当类中有了纯虚函数，这个类也称为抽象类
+
+- 当类中有了纯虚函数（只要有一个就可以），这个类称为抽象类
+
 - 抽象类特点：
   - 无法实例化对象
   - 子类必须重写抽象类中的纯虚函数，否则也属于抽象类
+  
+- 示例：
+
+  - ```c++
+    #include<iostream>
+    #include<string>
+    using namespace std;
+    
+    class Base
+    {
+    public:
+    	//纯虚函数，只要有一个
+    	virtual void func() = 0;
+    };
+    
+    class Son :public Base
+    {
+    public:
+    	virtual void func() 
+    	{
+    		cout << "func函数调用" << endl;
+    	};
+    };
+    
+    void test01()
+    {
+    	//抽象类无法实例化对象
+    	//Base b;
+    	//new Base;
+    	//Son s;	//子类必须重写父类中的纯虚函数，否则无法实例化对象
+    	Base* base = new Son;
+    	base->func();
+    	//多态的目的就是为了让函数的接口更通用化，通过一个父类指针，指针不同对象时可以调用多种形态的函数
+    }
+    
+    int main()
+    {
+    	test01();
+    
+    	system("pause");
+    
+    	return 0;
+    }
+    ```
+
 
 #### （4）多态案例2  -  制作饮品
 
 - 案例描述：
   - 制作饮品的大致流程为：煮水 - 冲泡 - 倒入杯中 - 加入辅料
   - 利用多态技术实现本案例，提供抽象类制作饮品基类，提供子类制作咖啡和茶叶
+  
+- 文件：
+
+- 代码：
+
+  - ```c++
+    #include<iostream>
+    #include<string>
+    using namespace std;
+    
+    class AbstractDrinking	//抽象类：制作饮品类
+    {
+    public:
+    	virtual void Boil() = 0;		//煮水
+    	virtual void Brew() = 0;		//冲泡
+    	virtual void PourInCup() = 0;	//倒入杯中
+    	virtual void PutSomething() = 0;//加入辅料
+    	void makeDrink()	//制作饮品
+    	{
+    		Boil();
+    		Brew();
+    		PourInCup();
+    		PutSomething();
+    	}
+    };
+    
+    class Coffee :public AbstractDrinking	//咖啡类
+    {
+    public:
+    	virtual void Boil()
+    	{
+    		cout << "煮水" << endl;
+    	}
+    	virtual void Brew()
+    	{
+    		cout << "冲泡咖啡" << endl;
+    	}
+    	virtual void PourInCup()
+    	{
+    		cout << "倒入杯中" << endl;
+    	}
+    	virtual void PutSomething()
+    	{
+    		cout << "加入糖和牛奶" << endl;
+    	}
+    };
+    
+    class Tea :public AbstractDrinking	//茶类
+    {
+    public:
+    	virtual void Boil()
+    	{
+    		cout << "煮矿泉水" << endl;
+    	}
+    	virtual void Brew()
+    	{
+    		cout << "冲泡茶叶" << endl;
+    	}
+    	virtual void PourInCup()
+    	{
+    		cout << "倒入杯中" << endl;
+    	}
+    	virtual void PutSomething()
+    	{
+    		cout << "加入枸杞" << endl;
+    	}
+    };
+    
+    void doWork(AbstractDrinking* abs)	//传入一个父类的指针 //这一个函数是因为咖啡和茶都要用到，所以单独封装了这一步
+    {
+    	abs->makeDrink();
+    	delete abs;
+    	abs = NULL;
+    }
+    
+    void test01()
+    {
+    	//制作咖啡
+    	doWork(new Coffee);
+    	cout << "------------" << endl;
+    	//制作茶叶
+    	doWork(new Tea);
+    }
+    
+    int main()
+    {
+    	test01();
+    
+    	system("pause");
+    	return 0;
+    }
+    ```
+
 
 #### （5）虚析构和纯虚析构
 
@@ -3427,8 +4137,99 @@
 - 纯虚析构语法：
   - `virtual ~类名() = 0`
   - `类名::~类名(){}`
+  
+- 示例：
+
+  - ```c++
+    #include<iostream>
+    #include<string>
+    using namespace std;
+    
+    class Animal
+    {
+    public:
+    	Animal()
+    	{
+    		cout << "Animal构造函数调用" << endl;
+    	}
+    	//virtual ~Animal()	//利用虚析构可以解决：父类指针释放子类对象时不干净的问题
+    	//{
+    	//	cout << "Animal虚析构函数调用" << endl;
+    	//}
+    	virtual ~Animal() = 0;	//纯虚析构必须有声明和实现（因为父类中堆区空间必须由父类的析构函数释放）
+    	//只要有了纯虚析构，就属于抽象类。无法 实例化对象
+    	virtual void speak() = 0;	//纯虚函数,纯虚函数可以只有声明没有实现
+    };
+    Animal::~Animal()
+    {
+    	cout << "Animal纯虚析构函数调用" << endl;
+    }
+    
+    
+    class Cat : public Animal
+    {
+    public:
+    	Cat(string name)
+    	{
+    		cout << "Cat构造函数调用" << endl;
+    		m_Name = new string(name);	//堆区创建了一块内存，需要手动释放
+    	}
+    	virtual void speak()
+    	{
+    		cout << *m_Name << "小猫说话" << endl;
+    	}
+    	~Cat()
+    	{
+    		cout << "Cat析构函数调用" << endl;
+    		if (m_Name)
+    		{
+    			delete m_Name;
+    			m_Name = NULL;
+    		}
+    	}
+    	string* m_Name;
+    };
+    
+    void test01()
+    {
+    	Animal* animal = new Cat("Tom");
+    	animal->speak();
+    	delete animal;
+    	//父类指针析构时，不会调用子类中析构函数，导致如果子类有堆区属性，会出现内存泄露
+    	//解决办法，将父类析构函数改为虚析构
+    }
+    
+    int main()
+    {
+    	test01();
+    
+    	system("pause");
+    	return 0;
+    }
+    ```
+  
+- 总结：
+
+  - 虚析构或者纯虚析构就是用来解决通过父类指针释放子类对象
+  - 如果子类中没有堆区数据，可以不写虚析构或纯虚析构
+  - 若未使用虚析构，父类指针析构时，不会调用子类中析构函数，导致如果子类有堆区属性，会出现内存泄露
+  - 纯虚析构必须有声明和实现（因为父类中堆区空间必须由父类的析构函数释放）
+  - 只要有了纯虚析构，就属于抽象类。无法 实例化对象
+
 
 #### （6）多态案例3  -  电脑组装
+
+- 案例描述;
+
+  - 电脑主要组成部件为CPU、显卡、内存条
+  - 将每个零件封装出抽象基类，并且提供不同的厂商生产不同的零件，例如Intel厂商和Lenovo厂商
+  - 创建电脑类提供让电脑工作的函数，并且调用每个零件工作的接口
+  - 测试时组装三台不同的电脑进行工作
+
+- ```c++
+  ```
+
+- 
 
 ## （五）文件操作
 
