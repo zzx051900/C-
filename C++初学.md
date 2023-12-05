@@ -1,4 +1,4 @@
-- 网课（黑马程序员）（共314节）：1，2，3，4，5，6，7，8，9，10，11，12，13，14，15，16，17，18，19，20，21，22，23，24，25，26，27，28，29，30，31，32，33，34，35，36，37，38，39，40，41，42，43，44，45，46，47，48，49，50，51，52，53，54，55，56，57，58，59，60，61，62，63，64，65，66，67，68，69，70，71，72，73，74，75，76，77，78，79，80，81，82，83，84，85，86，87，88，89，90，91，92，93，94，95，96，97，98，99，100，101，102，103，104，105，106，107，108，109，110，110，111，112，113，114，115，116，117，118，119，120，121，122，...，127，128，129，130，131，132，133，134，135，136，137，138，139，140，...，143，144
+- 网课（黑马程序员）（共314节）：1，2，3，4，5，6，7，8，9，10，11，12，13，14，15，16，17，18，19，20，21，22，23，24，25，26，27，28，29，30，31，32，33，34，35，36，37，38，39，40，41，42，43，44，45，46，47，48，49，50，51，52，53，54，55，56，57，58，59，60，61，62，63，64，65，66，67，68，69，70，71，72，73，74，75，76，77，78，79，80，81，82，83，84，85，86，87，88，89，90，91，92，93，94，95，96，97，98，99，100，101，102，103，104，105，106，107，108，109，110，110，111，112，113，114，115，116，117，118，119，120，121，122，...，127，128，129，130，131，132，133，134，135，136，137，138，139，140，141，142，143，144
 - 课程安排：
   - 第一阶段：C++基础入门，对C++有初步了解
     - 案例：通讯录管理系统
@@ -129,10 +129,47 @@
 ### 6.字符串型
 
 - 作用：表示一串字符
+
 - 两种风格：
   1. C语言风格字符串：`char 变量名[] = "字符串值"`
   2. C++风格字符串：`string 变量名 = "字符串值"`
      - 需要包含头文件`#include<string>`
+  
+
+#### （1）字符串比较
+
+- 如果要比较的对象是两个string，则利用函数 `compare()`
+
+  - 两个字符串相等时返回0
+  - 两个字符串不相等时：
+    - 若s1长度长，则返回1
+    - 若s1长度短，则返回1
+
+- 也可以直接使用`==`号进行比较
+
+- 示例：
+
+  - ```c++
+    #include<iostream>
+    #include<string>
+    using namespace std;
+    
+    int main()
+    {
+    	string s1 = "abc";
+    	string s2 = "abc";
+    	string s3 = "ab";
+    	string s4 = "abcd";
+    	cout << s1.compare(s2) << endl;	//两个字符串相等时返回0
+    	cout << s1.compare(s3) << endl;	//两个字符串不相等时,若s1长度长，则返回1
+    	cout << s1.compare(s4) << endl;	//两个字符串不相等时,若s1长度短，则返回-1
+    	cout << (s1 == s2) << endl;	//也可以用等于号直接比较，相等时返回1
+    	cout << (s1 == s3) << endl;	//不相等时返回0
+    
+    	system("pause");
+    	return 0;
+    }
+    ```
 
 ### 7.布尔类型bool
 
@@ -4226,10 +4263,180 @@
   - 创建电脑类提供让电脑工作的函数，并且调用每个零件工作的接口
   - 测试时组装三台不同的电脑进行工作
 
-- ```c++
-  ```
+- 文件：
 
-- 
+- 代码：
+
+  - ```c++
+    #include<iostream>
+    #include<string>
+    using namespace std;
+    
+    //抽象CPU类
+    class CPU
+    {
+    public:
+    	//抽象计算函数
+    	virtual void calculate() = 0;	//纯虚函数
+    };
+    
+    //抽象显卡类
+    class VideoCard
+    {
+    public:
+    	//抽象显示函数
+    	virtual void display() = 0;	//纯虚函数
+    };
+    
+    //抽象内存条类
+    class Memory
+    {
+    public:
+    	//抽象存储函数
+    	virtual void storage() = 0;	//纯虚函数
+    };
+    
+    //电脑类
+    class Computer
+    {
+    public:
+    	Computer(CPU* cpu, VideoCard* vc, Memory* mem)	//有参构造
+    	{
+    		m_cpu = cpu;
+    		m_vc = vc;
+    		m_mem = mem;
+    	}
+    	void work()	//零件工作函数，调用具体接口
+    	{
+    		m_cpu->calculate();
+    		m_vc->display();
+    		m_mem->storage();
+    	}
+    	~Computer()
+    	{
+    		//释放CPU零件
+    		if (m_cpu)
+    		{
+    			delete m_cpu;
+    			m_cpu = NULL;
+    		}
+    		//释放显卡零件
+    		if (m_vc)
+    		{
+    			delete m_vc;
+    			m_cpu = NULL;
+    		}
+    		//释放内存条零件
+    		if (m_mem)
+    		{
+    			delete m_mem;
+    			m_mem = NULL;
+    		}
+    	}
+    
+    private:
+    	CPU* m_cpu;	//CPU的零件指针
+    	VideoCard* m_vc;	//显卡零件指针	
+    	Memory* m_mem;	//内存条零件指针
+    };
+    
+    //具体厂商：
+    	//Intel厂商:
+    		//CPU
+    class IntelCPU :public CPU
+    {
+    public:
+    	virtual void calculate()
+    	{
+    		cout << "Intel的CPU开始计算" << endl;
+    	}
+    };
+    		//显卡
+    class IntelVideoCard :public VideoCard
+    {
+    public:
+    	virtual void display()
+    	{
+    		cout << "Intel的显卡开始显示" << endl;
+    	}
+    };
+    		//内存条
+    class IntelMemory  :public Memory
+    {
+    public:
+    	virtual void storage()
+    	{
+    		cout << "Intel的内存条开始存储" << endl;
+    	}
+    };
+    
+    	//Lenovo厂商：
+    		//CPU
+    class LenovoCPU :public CPU
+    {
+    public:
+    	virtual void calculate()
+    	{
+    		cout << "Lenovo的CPU开始计算" << endl;
+    	}
+    };
+    		//显卡
+    class LenovoVideoCard :public VideoCard
+    {
+    public:
+    	virtual void display()
+    	{
+    		cout << "Lenovo的显卡开始显示" << endl;
+    	}
+    };
+    		//内存条
+    class LenovoMemory :public Memory
+    {
+    public:
+    	virtual void storage()
+    	{
+    		cout << "Lenovo的内存条开始存储" << endl;
+    	}
+    };
+    
+    //测试组装不同电脑
+    void test01()
+    {
+    	//第一台电脑零件（用Intel的电脑零件）
+    	CPU* intelCPU = new IntelCPU;	//父类指针指向子类对象，多态	//堆区创建
+    	VideoCard* intelVideoCard = new IntelVideoCard;
+    	Memory* intelMemory = new IntelMemory;
+    
+    	//创建第一台电脑
+    	cout << "第一台电脑开始工作" << endl;
+    	Computer* computer1 = new Computer(intelCPU, intelVideoCard, intelMemory);
+    	computer1->work();
+    	delete computer1;	//此时只释放了电脑类指针在堆区的内存，而零件在堆区的内存还没有释放
+    
+    	//创建第二台电脑（用Lenovo的电脑零件）
+    	cout << "----------------" << endl;
+    	cout << "第二台电脑开始工作" << endl;
+    	Computer* computer2 = new Computer(new LenovoCPU, new LenovoVideoCard, new LenovoMemory);
+    	computer2->work();
+    	delete computer2;
+    
+    	//创建第三台电脑（混合搭配）
+    	cout << "----------------" << endl;
+    	cout << "第三台电脑开始工作" << endl;
+    	Computer* computer3 = new Computer(new IntelCPU, new LenovoVideoCard, new LenovoMemory);
+    	computer3->work();
+    	delete computer3;
+    }
+    
+    int main()
+    {
+    	test01();
+    
+    	system("pause");
+    	return 0;
+    }
+    ```
+
 
 ## （五）文件操作
 
@@ -4241,9 +4448,9 @@
   1. 文本文件：文件以文本的ASCII码存储在计算机中
   2. 二进制文件：文件以文本的二进制形式存储在计算机中，用户一般不能直接读懂它们
 - 操作文件的三大类：
-  - ofstream：写操作
-  - ifstream：读操作
-  - fstream：读写操作
+  - `ofstream`：写操作，用于创建对象并写入
+  - `ifstream`：读操作，用于从文件读取信息。
+  - `fstream`：读写操作，该数据类型通常表示文件流，且同时具有 `ofstream` 和 `ifstream `两种功能，这意味着它可以创建文件，向文件写入信息，从文件读取信息。
 
 ### 1.文本文件
 
@@ -4264,6 +4471,7 @@
      - 注意：文件打开方式可以配合使用，利用`|`操作符
        - 例：用二进制方式写文件：`ios::binary | ios::out`
   4. 写文件：`ofs << "写入的数据";`
+     - 流插入运算符 `<< `
   5. 关闭文件：`ofs.close();`
 
 - ```c++
@@ -4302,6 +4510,7 @@
   2. 创建流对象：`ifstream ifs;`
   3. 打开文件：`ifs.open("文件路径",打开方式);`
   4. 读文件：四种方式读取
+     - 流提取运算符`>> `
   5. 关闭文件：`ifs.close();`
 
 - ```c++
@@ -4386,19 +4595,21 @@
 ## （一）管理系统需求
 
 - 职工管理系统可以用来管理公司内所有员工的信息，本教程主要利用C++来实现一个基于多态的职工管理系统
-- 公司中职工分为三类：普通员工、经理、老板；显示信息时，需要显示：职工编号、职工姓名、职工岗位、以及职责
-  - 普通员工职责：完成经理交给的任务
-  - 经理职责：完成老板交给的任务，并下发任务给员工
-  - 老板职责：管理公司所有职务
+- 公司中职工分为三类：普通员工、经理、老板
+  - 显示信息时，需要显示：职工编号、职工姓名、职工岗位、以及职责
+    - 普通员工职责：完成经理交给的任务
+    - 经理职责：完成老板交给的任务，并下发任务给员工
+    - 老板职责：管理公司所有职务
+  
 - 管理系统中需要实现的功能如下：
-  - 退出管理程序：退出当前管理系统
-  - 增加职工信息：实现批量添加职工功能，将信息录入到文件中，职工信息为：职工编号、姓名、部门编号
-  - 显示职工信息：显示公司内部所有职工信息
-  - 删除离职员工：按照编号删除指定职工
-  - 修改职工信息：按照编号修改职工信息
-  - 查找职工信息：按照职工的编号或职工的姓名进行查找相关的人员信息
-  - 按照编号排序：按照职工编号进行排序，排序规则由用户指定
-  - 清空所有文档：清空文件中所有职工信息（清空前需要在此确认，防止误删）
+  1. 退出管理程序：退出当前管理系统
+  2. 增加职工信息：实现批量添加职工功能，将信息录入到文件中，职工信息为：职工编号、姓名、部门编号
+  3. 显示职工信息：显示公司内部所有职工信息
+  4. 删除离职员工：按照编号删除指定职工
+  5. 修改职工信息：按照编号修改职工信息
+  6. 查找职工信息：按照职工的编号或职工的姓名进行查找相关的人员信息
+  7. 按照编号排序：按照职工编号进行排序，排序规则由用户指定
+  8. 清空所有文档：清空文件中所有职工信息（清空前需要在此确认，防止误删）
 
 ## （二）创建项目
 
@@ -4736,4 +4947,15 @@
 
 ## （8）学生模块
 
-## （9）教师模块0
+## （9）教师模块
+
+# C++常见报错解决方案
+
+## 1.无法指定数组的显式初始值设定项？
+
+- 报错原因：
+  - .h头文件中不能进行私有成员数组的初始化，尝试在.cpp 文件中初始化数据。
+- 解决方案：
+  - 将`float frequencies[5] = {90,45,22.5,11.25,5.625};`写到.h文件中都会报这样的错误
+  - 所以只能在.h文件中仅仅声明它：`float frequencies[5];`
+  - 然后在对应的.cpp文件中对其进行初始化
