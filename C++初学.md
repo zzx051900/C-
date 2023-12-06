@@ -1,4 +1,4 @@
-- 网课（黑马程序员）（共314节）：1，2，3，4，5，6，7，8，9，10，11，12，13，14，15，16，17，18，19，20，21，22，23，24，25，26，27，28，29，30，31，32，33，34，35，36，37，38，39，40，41，42，43，44，45，46，47，48，49，50，51，52，53，54，55，56，57，58，59，60，61，62，63，64，65，66，67，68，69，70，71，72，73，74，75，76，77，78，79，80，81，82，83，84，85，86，87，88，89，90，91，92，93，94，95，96，97，98，99，100，101，102，103，104，105，106，107，108，109，110，110，111，112，113，114，115，116，117，118，119，120，121，122，...，127，128，129，130，131，132，133，134，135，136，137，138，139，140，141，142，143，144
+- 网课（黑马程序员）（共314节）：1，2，3，4，5，6，7，8，9，10，11，12，13，14，15，16，17，18，19，20，21，22，23，24，25，26，27，28，29，30，31，32，33，34，35，36，37，38，39，40，41，42，43，44，45，46，47，48，49，50，51，52，53，54，55，56，57，58，59，60，61，62，63，64，65，66，67，68，69，70，71，72，73，74，75，76，77，78，79，80，81，82，83，84，85，86，87，88，89，90，91，92，93，94，95，96，97，98，99，100，101，102，103，104，105，106，107，108，109，110，110，111，112，113，114，115，116，117，118，119，120，121，122，...，127，128，129，130，131，132，133，134，135，136，137，138，139，140，141，142，143，144，...，147，148，149，150，151，152，153，154，155，156，157，158，159，
 - 课程安排：
   - 第一阶段：C++基础入门，对C++有初步了解
     - 案例：通讯录管理系统
@@ -4625,15 +4625,48 @@
 
 ### 1.创建文件
 
-- 在头文件和原文的文件下分别创建`workManager.h`和`workManager.cpp`文件
+- 在头文件和原文件的文件下分别创建`workManager.h`和`workManager.cpp`文件
 
 ### 2.头文件实现
 
 - 在`workManager.h`中设计管理类
 
+- 代码实现：
+
+  - ```c++
+    #pragma once		//防止头文件重复包含
+    #include<iostream>
+    using namespace std;
+    
+    class WorkerManager
+    {
+    public:
+    	WorkerManager();	//构造，头文件只声明，不实现
+    	~WorkerManager();	//析构，头文件只声明，不实现
+    };
+    ```
+
+
 ### 3.源文件实现
 
 - 在`workManager.cpp`中将构造函数和析构函数空实现补全
+
+- 代码实现：
+
+  - ```c++
+    #include"workerManager.h"
+    
+    WorkerManager::WorkerManager()	//构造函数，cpp文件中实现
+    {
+    
+    }
+    
+    WorkerManager::~WorkerManager()	//析构函数，cpp文件中实现
+    {
+    
+    }
+    ```
+
 
 ## （四）菜单功能
 
@@ -4645,11 +4678,47 @@
 
 ### 2.菜单功能实现
 
-- 在管理类`workManger.cpp`中实现函数`void Show_Menu();`
+- 在`workManager.h`中提供菜单功能的成员函数`void Show_Menu();`
+
+- 在`workManger.cpp`中实现函数`void Show_Menu();`
+
+- 代码实现：
+
+  - ```c++
+    void WorkerManager::Show_Menu()	//菜单功能
+    {
+    	cout << "********************************" << endl;
+    	cout << "****** 欢迎使用职工管理系统 ******" << endl;
+    	cout << "******** 0.退出管理系统 ********"  << endl;
+    	cout << "******** 1.增加职工信息 ********" << endl;
+    	cout << "******** 2.显示职工信息 ********" << endl;
+    	cout << "******** 3.删除离职职工 ********" << endl;
+    	cout << "******** 4.修改职工信息 ********" << endl;
+    	cout << "******** 5.查找职工信息 ********" << endl;
+    	cout << "******** 6.按照编号排序 ********" << endl;
+    	cout << "******** 7.清空所有文档 ********" << endl;
+    }
+    ```
+
 
 ### 3.测试菜单功能
 
 - 在`职工管理系统.cpp`中测试菜单功能
+
+- 代码实现：
+
+  - ```c++
+    int main()
+    {
+    	WorkerManager wm;	//实例化管理者对象
+    	wm.Show_Menu();	//调用展示菜单
+    
+    
+    	system("pause");
+    	return 0;
+    }
+    ```
+
 
 ## （五）退出功能
 
@@ -4657,10 +4726,71 @@
 
 - 在main函数中提供分支选择，提供每个功能接口
 
+- 代码实现：
+
+  - ```c++
+    int main()
+    {
+    	WorkerManager wm;	//实例化管理者对象
+    	int choice = 0;
+    	while (1)
+    	{
+    		wm.Show_Menu();	//调用展示菜单
+    		cout << "请输入您的选择：" << endl;
+    		cin >> choice;
+    		switch (choice)
+    		{
+    		case 0:	//退出系统
+    			break;
+    		case 1:	//添加职工
+    			break;
+    		case 2:	//显示职工
+    			break;
+    		case 3:	//删除职工
+    			break;
+    		case 4:	//修改职工
+    			break;
+    		case 5:	//查找职工
+    			break;
+    		case 6:	//排序职工
+    			break;
+    		case 7:	//清空文件
+    			break;
+    		default:
+    			system("cls");	//清空屏幕
+    			break;
+    		}
+    	}
+    
+    	system("pause");
+    	return 0;
+    }
+    ```
+
+
 ### 2.实现退出功能
 
 - 在`workManager.h`中提供退出系统的成员函数`void exitSystem();`
+
 - 在`workManager.cpp`中提供具体的功能实现
+
+- 代码实现：
+
+  - ```c++
+    void WorkerManager::exitSystem()
+    {
+    	cout << "欢迎下次使用!" << endl;
+    	system("pause");
+    	exit(0);	//无论在哪里调用，程序都可以直接退出
+    }
+    ```
+
+- 关键点：
+
+  - ```c++
+    exit(0);	//无论在哪里调用，程序都可以直接退出
+    ```
+
 
 ### 3.测试功能
 
@@ -4671,29 +4801,227 @@
 ### 1.创建职工抽象类
 
 - 职工的分类：普通员工、经理、老板
+
 - 将三种职工抽象到一个类（worker）中，利用多态管理不同职工种类
-- 职工的属性为：职工编号、职工姓名、职工所在部门编号
-- 职工的行为为：岗位职责信息描述、获取岗位名称
+
+- 职工的属性：职工编号、职工姓名、职工所在部门编号
+
+- 职工的行为：岗位职责信息描述、获取岗位名称
+
 - 头文件文件夹下，创建头文件`worker.h`的文件
+
+- 代码实现：
+
+  - ```c++
+    #pragma once
+    #include<iostream>
+    #include<string>
+    using namespace std;
+    
+    class Worker		//抽象职工基类
+    {
+    public:
+    	//职工行为
+    	virtual void showInfo() = 0;		//展示个人信息（纯虚函数）
+    	virtual string getDepyName() = 0;	//获取岗位信息（纯虚函数）
+    
+    	//职工属性
+    	int m_Id;	//职工编号
+    	string m_Name;	//职工姓名
+    	int m_DeptId;	//职工所在部门名称编号
+    };
+    ```
+
 
 ### 2.创建普通员工类
 
 - 普通员工类继承职工抽象类，并重写父类中纯虚函数
+
 - 在头文件和源文件的文件夹下分别创建`employee.h`和`employee.cpp`文件
+
+- 代码实现：
+
+  - `employee.h``：
+
+    - ```c++
+      //普通员工文件
+      #pragma once
+      #include<iostream>
+      #include<string>
+      #include"worker.h"
+      using namespace std;
+      
+      class Employee :public Worker	//普通员工类，继承自抽象职工基类，并重写父类中纯虚函数
+      {
+      public:
+      	Employee(int id, string name, int dId);	//有参构造函数声明（传入职工编号，姓名，部门编号）
+      
+      	void showInfo();	//显示个人信息
+      
+      	string getDeptName();	//获取岗位信息
+      };
+      ```
+
+  - ``employee.cpp`：
+
+    - ```c++
+      #include"employee.h"
+      
+      Employee::Employee(int id, string name, int dId)	//有参构造函数声明（传入职工编号，姓名，部门编号）
+      {
+      	this->m_Id = id;
+      	this->m_Name = name;
+      	this->m_DeptId = dId;
+      	//形参名与成员变量名一样时必须加this指针，不一样时可加可不加
+      }
+      
+      void Employee::showInfo()	//显示个人信息
+      {
+      	cout << "职工编号：" << this->m_Id
+      		<< "\t职工姓名：" << this->m_Name
+      		<< "\t岗位：" << this->getDeptName()	//获取岗位信息
+      		<< "\t岗位职责：完成经理交给的任务" << endl;
+      }
+      
+      string Employee::getDeptName()	//获取岗位信息
+      {
+      	return string("员工");
+      }
+      ```
+
 
 ### 3.创建经理类
 
 - 经理类继承职工抽象类，并重写父类中纯虚函数，和普通员工类似
+
 - 在头文件和源文件的文件夹下分别创建`manager.h`和`manager.cpp`文件
+
+- 代码实现：
+
+  - `manager.h``：
+
+    - ```c++
+      //经理文件
+      #pragma once
+      #include<iostream>
+      #include<string>
+      #include"worker.h"	
+      using namespace std;
+      
+      class Manager :public Worker	//经理类，继承自抽象职工基类，并重写父类中纯虚函数
+      {
+      public:
+      	Manager(int id, string name, int dId);	//有参构造函数声明（传入职工编号，姓名，部门编号）
+      
+      	void showInfo();	//显示个人信息
+      
+      	string getDeptName();	//获取岗位信息
+      };
+      ```
+
+  - ``manager.cpp`：
+
+    - ```c++
+      #include"manager.h"
+      
+      Manager::Manager(int id, string name, int dId)	//有参构造函数声明（传入职工编号，姓名，部门编号）
+      {
+      	this->m_Id = id;
+      	this->m_Name = name;
+      	this->m_DeptId = dId;
+      }
+      
+      void Manager::showInfo()	//显示个人信息
+      {
+      	cout << "职工编号：" << this->m_Id
+      		<< "\t职工姓名：" << this->m_Name
+      		<< "\t岗位：" << this->getDeptName()	//获取岗位信息
+      		<< "\t岗位职责：完成老板交给的任务，并且下发任务给普通员工" << endl;
+      }
+      
+      string Manager::getDeptName()	//获取岗位信息
+      {
+      	return string("经理");
+      }
+      ```
+
 
 ### 4.创建老板类
 
 - 老板类继承职工抽象类，并重写父类中纯虚函数，和普通员工类似
+
 - 在头文件和源文件的文件夹下分别创建`boss.h`和`boss.cpp`文件
+
+- `boss.h``
+
+  - ```c++
+    //老板文件
+    #pragma once
+    #include<iostream>
+    #include<string>
+    #include"worker.h"	
+    using namespace std;
+    
+    class Boss :public Worker	//老板类，继承自抽象职工基类，并重写父类中纯虚函数
+    {
+    public:
+    	Boss(int id, string name, int dId);	//有参构造函数声明（传入职工编号，姓名，部门编号）
+    
+    	void showInfo();	//显示个人信息
+    
+    	string getDeptName();	//获取岗位信息
+    };
+    ```
+
+- ``boss.cpp`
+
+  - ```c++
+    #include"boss.h"
+    
+    Boss::Boss(int id, string name, int dId)	//有参构造函数声明（传入职工编号，姓名，部门编号）
+    {
+    	this->m_Id = id;
+    	this->m_Name = name;
+    	this->m_DeptId = dId;
+    }
+    
+    void Boss::showInfo()	//显示个人信息
+    {
+    	cout << "职工编号：" << this->m_Id
+    		<< "\t职工姓名：" << this->m_Name
+    		<< "\t岗位：" << this->getDeptName()	//获取岗位信息
+    		<< "\t岗位职责：管理公司所有事务" << endl;
+    }
+    
+    string Boss::getDeptName()	//获取岗位信息
+    {
+    	return string("总裁");
+    }
+    ```
+
 
 ### 5.测试多态
 
 - 在`职工管理系统.cpp`中添加测试函数，并且运行能够产生多态
+
+- 代码实现：
+
+  - ```c++
+    //普通员工类测试代码
+    	Worker* worker;	//多态：父类指针指向子类对象，一个接口有多种形态，由于创建对象不同，显示的对象也不一样
+    	worker = new Employee(1, "aaa", 1);	//创建一个普通员工
+    	worker->showInfo();	//显示个人信息
+    	delete worker;
+    
+    	worker = new Manager(2, "bbb", 2);	//创建一个经理
+    	worker->showInfo();	
+    	delete worker;
+    
+    	worker = new Boss(3, "ccc", 3);	//创建一个老板
+    	worker->showInfo();
+    	delete worker;
+    ```
+
 
 ## （七）添加职工
 
@@ -4709,28 +5037,148 @@
 ### 2.功能实现
 
 - 在`WorkerManager.h`头文件中添加成员属性：
-- 在WorkerManager构造函数中初始化属性：
+
+  - ```c++
+    int m_EmpNum;	//记录文件中的人数个数
+    Worker** m_EmpArray;	//员工数组的指针	
+    ```
+
+  - `new出来的员工类型是用worker*类型的指针指向;而要new一个存放worker*类型数据的数组，则要用worker** 类型的指针指向`
+
+- 在`WorkerManager()`构造函数中初始化属性：
+
+  - ```c++
+    this->m_EmpNum = 0;	//初始化人数为0
+    this->m_EmpArray = NULL;	//初始化数组指针为空
+    ```
+
 - 在`WorkerManager.h`头文件中添加成员函数：
-- 在`WorkerManager.cpp`中实现该函数
+
+  - ```c++
+    void Add_Emp();	//添加职工
+    ```
+
+- 在`WorkerManager.cpp`中实现该函数：
+
+  - ```c++
+    void WorkerManager::Add_Emp()		//添加职工
+    {
+    	cout << "请输入添加职工的数量" << endl;
+    	int addNum;	//保存用户的输入数量
+    	cin >> addNum;
+        //判断输入数据是否有效，大于零则有效，否则提示输入有误
+    	if (addNum > 0)	
+    	{
+    		//添加思路是在堆区开辟一块新的数组内存空间，大小等于原职工数量加新添加的职工数量，将原数组内容移动到新数组，在后面继续添加新职工，添加完成后释放原数组空间，成员函数数组指针指向新的内存空间，更新职工数量
+            int newSize = this->m_EmpNum + addNum;	//计算新空间的大小，等于原数量加新添加的数量
+    		Worker** newSpace = new Worker*[newSize];	//开辟新空间
+    		if (this->m_EmpArray != NULL)	//判断数组是否为空（？？？不理解），若不为空，则将原数组内容移动到新数组
+    		{
+    			for (int i = 0; i < this->m_EmpNum; i++)	//拷贝数组原有内容
+    			{
+    				newSpace[i] = this->m_EmpArray[i];	//（？？？）这样就可以拷贝吗
+    			}
+    		}
+    		for (int i = 0; i < addNum; i++)	//批量添加数据
+    		{
+    			int id;	//职工编号
+    			string name;	//姓名
+    			int dSelect;	//部门编号
+    			cout << "请输入第" << i + 1 << "个员工的职工编号:" << endl;
+    			cin >> id;
+    			cout << "请输入该员工的姓名:" << endl;
+    			cin >> name;
+    			cout << "请选择该职工的岗位：" << endl;
+    			cout << "1.普通员工" << endl;
+    			cout << "2.经理" << endl;
+    			cout << "3.老板" << endl;
+    			cin >> dSelect;
+    			Worker* worker = NULL;
+    			switch (dSelect)
+    			{
+    			case 1:
+    				worker = new Employee(id, name, 1);
+    				break;
+    			case 2:
+    				worker = new Manager(id, name, 2);
+    				break;
+    			case 3:
+    				worker = new Boss(id, name, 3);
+    				break;
+    			default:
+    				break;
+    			}
+    			newSpace[this->m_EmpNum + i] = worker;	//新加入的这个职工在数组中的位置是this->m_EmpNum + i
+    		}
+    		delete[] this->m_EmpArray;	//释放原有数组
+    		this->m_EmpArray = newSpace;	//更改职工数组的指向，指向新建数组的首地址
+    		this->m_EmpNum = newSize;	//更新职工的数量
+             this->m_FileIsEmpty = false;	//更新文件为非空状态（在文件操作时需要用到的标志）
+    		cout << "成功添加" << addNum << "名新职工" << endl;
+    	}
+    	else
+    	{
+    		cout << "输入数据有误" << endl;
+    	}
+    	//按任意键清屏
+    	system("pause");
+    	system("cls");
+    }
+    
+    ```
+
+  - 在`~WorkManager()`析构函数中释放堆区数据
+
+    - ```c++
+      WorkerManager::~WorkerManager()	//析构函数，cpp文件中实现
+      {
+      	//释放堆区数据
+      	if (this->m_EmpArray)	
+      	{
+      		delete[] this->m_EmpArray;
+      		this->m_EmpArray = NULL;
+      	}
+      }
+      
+      ```
+
 
 ### 3.测试添加
 
 ## （八）文件交互 - 写文件
 
 - 功能描述：对文件进行读写
-  - 在上一个添加功能中，我们只是将所有数据添加到了内存中，一旦程序结束就无法保存，因此文件管理类需要一个与文件进行交互的功能，对u文件进行读写操作
+  - 在上一个添加功能中，我们只是将所有数据添加到了内存中，一旦程序结束就无法保存，因此文件管理类需要一个与文件进行交互的功能，对于文件进行读写操作
 
 ### 1.设定文件路径
 
 - 在`workerManger.h`中添加宏常量，并且包含头文件`<fstream>`
 
+- ```c++
+  #include<fstream>
+  #define FILENAME "empFile.txt"
+  ```
+
 ### 2.成员函数声明
 
-- 在`workerManger.h`中添加成员函数`void save()`
+- 在`workerManger.h`中添加成员函数`void save();`
 
 ### 3.保存文件功能实现
 
-- 
+- ```c++
+  void WorkManager::Save()
+  {
+      ofstream ofs;	//创建流对象
+      ofs.open(FILENAME,ios::out);	//打开方式
+      for(int i=0;i<this->m_EmpNum;i++)
+      {
+          ofs << this->m_EmpArray[i]->m_Id << " "
+              << this->m_EmpArray[i]->m_Name << " "
+              <<this->m_EmpArray[i]->m_DeptId << endl;
+      }
+      ofs.close();	//关闭文件
+  }
+  ```
 
 ### 4.保存文件功能测试
 
@@ -4739,26 +5187,176 @@
 - 功能描述：
   - 将文件中的内容读到程序中；
 - 虽然我们实现了添加职工后保存到文件的操作，但是每次开始运行程序，并没有将文件中的数据读取到程序中，而我们的程序中还有清空文件的需求。因此构造函数初始化数据的情况分为三种：
-  - 第一次使用：文件未创建
-  - 文件存在但数据为空
-  - 文件存在且保存职工数据
+  1. 第一次使用：文件未创建
+  2. 文件存在但数据为空
+  3. 文件存在且保存职工数据
 
 ### 1.文件未创建
 
-- 在`workerManger.h`中添加新的成员属性`m_EilesEmpty`标志文件是否为空
+- 在`workerManger.h`中添加新的成员属性`m_FileIsEmpty`标志文件是否为空
+
+  - ```c++
+    bool m_FileIsEmpty;	//标志文件是否为空
+    ```
+
 - 修改`workerManager.cpp`中构造函数代码
+
+  - ```c++
+    WorkerManager::WorkerManager()	//构造函数，cpp文件中实现
+    {
+    	ifstream ifs;
+        ifs.open(FILENAME , ios::in);
+        
+        //文件不存在的情况
+        if(!ifs.is_open())	//如果文件打开失败，返回0，取反为1
+        {
+            cout << "文件不存在" << endl;
+            this->m_EmpNum = 0;	//初始化人数为0
+            this->m_FileIsEmpty = true;	//初始化文件为空标志
+            this->m_EmpArray = NULL;	//初始化数组指针为空
+            ifs.close();
+            return;
+        }
+    }
+    ```
+
 
 ### 2.文件存在但数据为空
 
 - 在`workerManager.cpp`中的构造函数追加代码
 
+  - ```c++
+    //文件存在，但记录为空的情况
+    char ch;
+    ifs >> ch;	//读入文件中的一个字符，若文件为空，则读入的是EOF（？？？不太理解）
+    if(ifs.eof())	//判断读入是否为EOF，若是，则为真
+    {
+        cout << "文件为空！" << endl;
+        this->m_EmpNum = 0;	//初始化人数为0
+        this->m_FileIsEmpty = true;	//初始化文件为空标志
+        this->m_EmpArray = NULL;	//初始化数组指针为空
+        ifs.close();
+        return;
+    }
+    ```
+
+- 成功添加职工后，需要修改文件空标志为假，在成员函数`void WorkerManager::Add_Emp()	`中添加：
+
+  - ```c++
+    this->m_FileIsEmpty = false;	//更新文件为非空状态
+    ```
+
+
 ### 3.文件存在且保存职工数据
 
 - 获取记录的职工人数：
   - 在`workerManger.h`中添加新的成员函数`int get_EmpNum();`
+  
+    - ```c++
+      int get_EmpNum();	//获取文件中的职工人数
+      ```
+  
+  - 在`workerManger.cpp`中实现成员函数`int WorkerManager::get_EmpNum()`
+  
+    - ```c++
+      int WorkerManager::get_EmpNum()
+      {
+          ifstream ifs;	//创建读文件流
+          ifs.open(FILENAME,ios::in);	//打开文件，为读文件打开
+          
+          int id;
+          string name;
+          int dId;
+          
+          int num = 0;	//统计人数
+          
+          while(ifs >> id && ifs >> name && ifs >> dId)	//成功读完一个人的数据，num就可以加1
+          {
+              num++;
+          }
+          
+          if.close();	//关闭文件
+          return num;    
+      }
+      ```
+  
 - 初始化数组：
   - 根据职工数据以及职工数据，初始化`workerManger`中的`Worker** m_EmpArray`指针
+  
   - 在`workerManger.h`中添加新的成员函数`void init_Emp();`
+  
+    - ```c++
+      void init_Emp();	//初始化职工数组
+      ```
+  
+  - 在`workerManger.cpp`中实现成员函数`void WorkerManager::init_Emp()`
+  
+    - ```c++
+      void WorkerManager::init_Emp()
+      {
+          ifstream ifs;	//创建读文件流
+          ifs.open(FILENAME,ios::in);	//打开文件，为读文件打开
+          
+          int id;
+          string name;
+          int dId;
+          
+          int index = 0;	//用作数组下标
+      	while(ifs >> id && ifs >> name && ifs >> dId)	//成功读完一个人的数据
+          {
+              Worker* worker = NULL;	//挨个临时储存每个职工
+              //根据不同部门创建不同对象
+              if(dId == 1)	//普通职工
+              {
+                  worker = new Employee(id, name, 1);
+              }
+              else if(dId == 2)	//经理
+              {
+                   worker = new Manager(id, name, 2);
+              }
+              else	//总裁
+              {
+                   worker = new Boss(id, name, 3);
+              }
+              //存到数组中
+              this->m_EmpArray[index] = worker;
+              index++;	//数组下标++
+          }
+      }
+      ```
+  
+- 在`workerManager.cpp`中的构造函数追加代码：
+
+  - ```c++
+    //文件存在，且记录数据
+    	int num = this->get_EmpNum();
+    	cout << "职工人数为：" << num << endl;
+    
+    	//初始化修改职工人数
+    	this->m_EmpNum = num;	
+    
+    	//初始化修改职工数组
+    	this->m_EmpArray = new Worker*[this->m_EmpNum];	//该步骤应该是动态分配数组内存大小
+    	this->init_Emp(); //初始化职工数组（将文件中的职工信息放到堆区申请的职工数组中，便于程序执行）
+    
+    	//初始化修改文件空标志为非空
+    	this->m_FileIsEmpty = false;
+    
+    	//这里应该是测试
+    	//输出数组中职工信息，测试是否从文件中正确读取
+    	//这里也可以调用worker的三个子类的showInfo()函数，因为在初始化数组往worker**数组中创建新对象的时候就已经分类识别不同对象了，所有可以利用多态显示职工信息
+    	for (int i = 0; i < this->m_EmpNum; i++)
+    	{
+    		cout << "职工编号：" << this->m_EmpArray[i]->m_Id
+    			<< "\t职工姓名：" << this->m_EmpArray[i]->m_Name
+    			<< "\t部门编号：" << this->m_EmpArray[i]->m_DeptId << endl;
+    	}
+    	for (int i = 0; i < this->m_EmpNum; i++)
+    	{
+    		this->m_EmpArray[i]->showInfo();
+    	}
+    ```
+
 
 ## （十）显示职工
 
@@ -4769,9 +5367,35 @@
 
 - 在`workerManger.h`中添加新的成员函数`void Show_Emp();`
 
+  - ```c++
+    void Show_Emp();	//添加新的成员函数
+    ```
+
+
 ### 2.显示职工函数实现
 
-- 在`workerManager.cpp`中实现成员函数`void Show_Emp();`
+- 在`workerManager.cpp`中实现成员函数`void WorkerManagerShow_Emp()`
+
+  - ```c++
+    void WorkerManager::Show_Emp()
+    {
+        //判断文件空标志是否为空
+        if(this->m_FileIsEmpty)
+        {
+            cout << "文件不存在或记录为空！" << endl;
+        }
+        else
+        {
+            for (int i = 0; i < this->m_EmpNum; i++)
+    		{
+    			this->m_EmpArray[i]->showInfo();
+    		}
+        }
+        system("pause");
+        system("cls");
+    }
+    ```
+
 
 ### 3.测试显示职工功能
 
@@ -4782,11 +5406,82 @@
 
 ### 1.删除职工函数声明
 
+- 在`workerManager.h`中添加成员函数`void Del_Emp;`
+
+  - ```c++
+    void Del_Emp();	//删除职工
+    ```
+
 ### 2.职工是否存在函数声明
+
+- 后续很多功能都需要根据职工是否存在来进行操作，如：删除职工、修改职工、查找职工
+
+- 因此单独再添加一个判断职工是否存在的函数
+
+- 在`workerManager.h`中添加成员函数`int IsExist(int id);`
+
+  - ```c++
+    //根据职工编号判断职工是否存在，若存在返回职工在数组中的位置，不存在则返回-1
+    int IsExist(int id);	//判断职工是否存在
+    ```
 
 ### 3.职工是否存在函数实现
 
+- 在`workerManager.cpp`中实现成员函数`int WorkerManager::IsExist(int id)`
+
+  - ```c++
+    int WorkerManager::IsExist(int id)
+    {
+        for(int i = 0; i < this->m_EmpNum; i++)
+        {
+            if(this->m_EmpArray[i]->m_Id == id)	//若找到了这个编号，返回数组下标
+            {
+                return i;            
+            }
+        }
+        return -1;
+    }
+    ```
+
 ### 4.删除职工函数实现
+
+- 在`workerManager.cpp`中实现成员函数`void WorkerManager::Del_Emp()`
+
+  - ```c++
+    void WorkerManager::Del_Emp()
+    {
+    	//先判断文件是否为空
+    	if (this->m_FileIsEmpty)
+    	{
+    		cout << "文件不存在或文件为空！" << endl;
+    	}
+    	else
+    	{
+    		cout << "请输入要删除的职工编号：" << endl;
+    		int id = 0;
+    		cin >> id;
+    		int index = this->IsExist(id);	//判断该职工是否存在，返回其数组下标
+    		if (index == -1)	//若该职工不存在
+    		{
+    			cout << "删除失败，该职工不存在！" << endl;
+    		}
+    		else
+    		{
+    			//数组数据前移覆盖
+    			for (int i = index; i < this->m_EmpNum - 1; i++)
+    			{
+    				this->m_EmpArray[i] = this->m_EmpArray[i + 1];
+    			}
+    			this->m_EmpNum--;	//职工总人数减一
+    			this->save();	//更新保存文件
+    			cout << "删除成功！" << endl;
+    		}
+    	}
+    	//删除成功后按任意键继续并清屏
+    	system("pause");
+    	system("cls");
+    }
+    ```
 
 ### 5.测试删除职工
 
@@ -4797,7 +5492,76 @@
 
 ### 1.修改职工函数声明
 
+- 在`workerManager.h`中添加成员函数`void Mod_Emp();`
+
+  - ```c++
+    void Mod_Emp();	//修改职工
+    ```
+
 ### 2.修改职工函数实现
+
+- 在`workerManager.cpp`中实现成员函数`void WorkerManager::Mod_Emp()`
+
+  - ```c++
+    void WorkerManager::Mod_Emp()
+    {
+    	//先判断文件是否为空
+    	if (this->m_FileIsEmpty)
+    	{
+    		cout << "文件不存在或文件为空！" << endl;
+    	}
+    	else
+    	{
+    		cout << "请输入修改的职工编号：" << endl;
+    		int id;
+    		cin >> id;
+    		int index = this->IsExist(id);	//判断该职工是否存在，返回其数组下标
+    		if (index == -1)	//若该职工不存在
+    		{
+    			cout << "修改失败，该职工不存在！" << endl;
+    		}
+    		else
+    		{
+    			delete this->m_EmpArray[index];	//为什么要delete，直接修改替换不可以吗？ 因为修改职工后对象可能会改变，不是简单的修改内容
+    			int newId = 0;
+    			string newName = "";
+    			int dSelect = 0;
+    			cout << "查到了编号为" << id << "的职工，请输入新的职工编号：" << endl;
+    			cin >> newId;
+    			cout << "请输入新的职工姓名：" << endl;
+    			cin >> newName;
+    			cout << "请输入新的岗位：" << endl;
+    			cout << "1.普通职工" << endl;
+    			cout << "2.经理" << endl;
+    			cout << "3.老板" << endl;
+    			cin >> dSelect;
+    			Worker* worker = NULL;
+    			if (dSelect == 1)
+    			{
+    				worker = new Employee(newId, newName, 1);
+    			}
+    			else if (dSelect == 2)
+    			{
+    				worker = new Manager(newId, newName, 2);
+    			}
+    			else if (dSelect == 3)
+    			{
+    				worker = new Boss(newId, newName, 3);
+    			}
+    			else
+    			{
+    				cout << "输入错误！" << endl;
+    			}
+    			this->m_EmpArray[index] = worker;	//更新到数组中
+    			cout << "修改成功!" << endl;
+    			this->save();	//保存到文件中
+    		}
+    	}
+    	//删除成功后按任意键继续并清屏
+    	system("pause");
+    	system("cls");
+    }
+    ```
 
 ### 3.测试修改0职工功能
 
@@ -4807,6 +5571,8 @@
   - 按照职工的编号或职工的姓名进行查找相关的人员信息
 
 ### 1.查找职工函数声明
+
+- 
 
 ### 2.查找职工函数实现
 
