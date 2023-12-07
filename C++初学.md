@@ -1,4 +1,4 @@
-- 网课（黑马程序员）（共314节）：1，2，3，4，5，6，7，8，9，10，11，12，13，14，15，16，17，18，19，20，21，22，23，24，25，26，27，28，29，30，31，32，33，34，35，36，37，38，39，40，41，42，43，44，45，46，47，48，49，50，51，52，53，54，55，56，57，58，59，60，61，62，63，64，65，66，67，68，69，70，71，72，73，74，75，76，77，78，79，80，81，82，83，84，85，86，87，88，89，90，91，92，93，94，95，96，97，98，99，100，101，102，103，104，105，106，107，108，109，110，110，111，112，113，114，115，116，117，118，119，120，121，122，...，127，128，129，130，131，132，133，134，135，136，137，138，139，140，141，142，143，144，...，147，148，149，150，151，152，153，154，155，156，157，158，159，
+- 网课（黑马程序员）（共314节）：1，2，3，4，5，6，7，8，9，10，11，12，13，14，15，16，17，18，19，20，21，22，23，24，25，26，27，28，29，30，31，32，33，34，35，36，37，38，39，40，41，42，43，44，45，46，47，48，49，50，51，52，53，54，55，56，57，58，59，60，61，62，63，64，65，66，67，68，69，70，71，72，73，74，75，76，77，78，79，80，81，82，83，84，85，86，87，88，89，90，91，92，93，94，95，96，97，98，99，100，101，102，103，104，105，106，107，108，109，110，110，111，112，113，114，115，116，117，118，119，120，121，122，...，127，128，129，130，131，132，133，134，135，136，137，138，139，140，141，142，143，144，...，147，148，149，150，151，152，153，154，155，156，157，158，159，160，161，162，163，164，165，166，
 - 课程安排：
   - 第一阶段：C++基础入门，对C++有初步了解
     - 案例：通讯录管理系统
@@ -5563,7 +5563,7 @@
     }
     ```
 
-### 3.测试修改0职工功能
+### 3.测试修改职工功能
 
 ## （十三）查找职工
 
@@ -5572,9 +5572,87 @@
 
 ### 1.查找职工函数声明
 
-- 
+- 在`workerManager.h`中添加成员函数`void Find_Emp();`
+
+  - ```c++
+    void Find_Emp();	//查找职工
+    ```
+
 
 ### 2.查找职工函数实现
+
+- 在`workerManager.cpp`中实现成员函数`void WorkerManager::Find_Emp()`
+
+  - ```c++
+    //查找职工
+    void WorkerManager::Find_Emp()
+    {
+    	//先判断文件是否为空
+    	if (this->m_FileIsEmpty)
+    	{
+    		cout << "文件不存在或文件为空！" << endl;
+    	}
+    	else
+    	{
+    		cout << "请选择查找的方式：" << endl;
+    		cout << "1.按照职工编号查找" << endl;
+    		cout << "2.按照职工姓名查找" << endl;
+    
+    		int select = 0;
+    		cin >> select;
+    
+    		if (select == 1)
+    		{
+    			int id;
+    			cout << "请输入要查找的职工编号：" << endl;
+    			cin >> id;
+    			int index = this->IsExist(id);
+    			if (index != -1)
+    			{
+    				cout << "查找成功！该职工的信息如下：" << endl;
+    				this->m_EmpArray[index]->showInfo();	//多态实现的显示职工信息
+    			}
+    			else
+    			{
+    				cout << "查找失败!该职工不存在" << endl;
+    			}
+    		}
+    		else if (select == 2)
+    		{
+    			string name;
+    			cout << "请输入要查找的职工姓名：" << endl;
+    			cin >> name;
+    			bool flag = false;	//用于标志是否找到，默认为flase
+    			int num = 0;	//用于记录重名情况下一共有几人重名
+    			for (int i = 0; i < this->m_EmpNum; i++)
+    			{
+    				if (name == this->m_EmpArray[i]->m_Name)
+    				{
+    					cout << "查找成功！该职工信息如下：" << endl;
+    					this->m_EmpArray[i]->showInfo();
+    					flag = true;
+    					num++;
+    				}
+    			}
+    			if (num>1)
+    			{
+    				cout << "有重名情况，该姓名的职工有" << num << "位" << endl;
+    			}
+    			if (flag == false)
+    			{
+    				cout << "查找失败！该职工不存在!" << endl;
+    			}	
+    		}
+    		else
+    		{
+    			cout << "输入错误，请重新输入" << endl;
+    		}	
+    	}
+    	//删除成功后按任意键继续并清屏
+    	system("pause");
+    	system("cls");
+    }
+    ```
 
 ### 3.测试查找职工功能
 
@@ -5582,10 +5660,89 @@
 
 - 功能描述：
   - 按照职工编号进行排序，排序规则由用户指定
+    - 按职工编号升序
+    - 按职工编号降序
 
 ### 1.排序函数声明
 
+- 在`workerManager.h`中添加成员函数`void Sort_Emp();`
+
+  - ```c++
+    void Sort_Emp();	//排序
+    ```
+
 ### 2.排序函数实现
+
+- 在`workerManager.cpp`中实现成员函数`void WorkerManager::Find_Emp()`
+
+  - ```c++
+    void WorkerManager::Sort_Emp()
+    {
+    	//先判断文件是否为空
+    	if (this->m_FileIsEmpty)
+    	{
+    		cout << "文件不存在或文件为空！" << endl;
+    	}
+    	else
+    	{
+    		cout << "请选择排序方式：" << endl;
+    		cout << "1.按职工编号升序" << endl;
+    		cout << "2.按职工编号降序" << endl;
+    		int select = 0;
+    		cin >> select;
+    		if (select == 1)	//升序
+    		{
+    			Worker* worker = NULL;
+    			for (int i = 0; i < this->m_EmpNum - 1; i++)	//n个数需要冒泡排序n-1趟
+    			{
+    				bool flag = false;	//用于标志一趟排序中是否发生了交换，若未发生交换说明已经排序成功，结束循环
+    				for (int j = 0; j < this->m_EmpNum - 1 - i; j++)	//每次交换都可以将一个最大数或最小数移动到其应该在的位置，所有每次需要比较的数都减一
+    				{
+    					if (this->m_EmpArray[j]->m_Id > this->m_EmpArray[j + 1]->m_Id)
+    					{
+    						worker = this->m_EmpArray[j];
+    						this->m_EmpArray[j] = this->m_EmpArray[j + 1];
+    						this->m_EmpArray[j + 1] = worker;
+    						flag = true;
+    					}
+    				}
+    				if (!flag)
+    					break;
+    			}
+    		}
+    		else if (select == 2)	//降序
+    		{
+    			Worker* worker = NULL;
+    			for (int i = 0; i < this->m_EmpNum - 1; i++)	//n个数需要冒泡排序n-1趟
+    			{
+    				bool flag = false;	//用于标志一趟排序中是否发生了交换，若未发生交换说明已经排序成功，结束循环
+    				for (int j = 0; j < this->m_EmpNum - 1 - i; j++)	//每次交换都可以将一个最大数或最小数移动到其应该在的位置，所有每次需要比较的数都减一
+    				{
+    					if (this->m_EmpArray[j]->m_Id < this->m_EmpArray[j + 1]->m_Id)
+    					{
+    						worker = this->m_EmpArray[j];
+    						this->m_EmpArray[j] = this->m_EmpArray[j + 1];
+    						this->m_EmpArray[j + 1] = worker;
+    						flag = true;
+    					}
+    				}
+    				if (!flag)
+    					break;
+    			}
+    		}
+    		else
+    		{
+    			cout << "输入错误！" << endl;
+    		}
+    		this->Show_Emp();	//输出排序后的职工
+    		this->save();	//更新保存文件
+    	}		
+    	//排序成功后按任意键继续并清屏
+    	system("pause");
+    	system("cls");
+    }
+    
+    ```
 
 ### 3.测试排序功能
 
@@ -5596,9 +5753,60 @@
 
 ### 1.清空函数声明
 
+- 在`workerManager.h`中添加成员函数`void Clean_File();`
+
+  - ```c++
+    void Clean_File();	//清空文件
+    ```
+
 ### 2.清空函数实现
 
+- 在`workerManager.cpp`中实现成员函数`void WorkerManager::Clean_File()`
+
+  - ```c++
+    //清空文件
+    void WorkerManager::Clean_File()
+    {
+    	cout << "请再次确认是否要清空文件：" << endl;
+    	cout << "1.确定" << endl;
+    	cout << "2.取消" << endl;
+    	int select = 0;
+    	cin >> select;
+    	if (select == 1)
+    	{
+    		ofstream ofs;
+    		ofs.open(FILENAME, ios::trunc);	//打开方式为：删除文件后重新创建
+    		//也可直接写成：ofstream ofs(FILENAME, ios::trunc);、
+    		ofs.close();
+    		//释放堆区数据，打开文件的时候构造函数在堆区开辟的空间（析构函数功能不全，且执行析构函数的时候有判断条件，不会重复释放）
+    		if (this->m_EmpArray)
+    		{
+    			for (int i = 0; i < this->m_EmpNum; i++)
+    			{
+    				if (this->m_EmpArray[i])	//判断每一个数组中每一个对象是否有在堆区开辟空间，如果有，则逐个释放
+    				{
+    					delete this->m_EmpArray[i];
+    					this->m_EmpArray[i] = NULL;
+    				}
+    			}
+    			delete[] this->m_EmpArray;
+    			this->m_EmpArray = NULL;
+    			this->m_EmpNum = 0;	//职工个数归零
+    			this->m_FileIsEmpty = true;	//文件空标志置为空
+    		}
+    	}
+    	system("pause");
+    	system("cls");
+    }
+    ```
+
 ### 3.测试清空函数
+
+- ```c++
+  case 7:	
+          wm.Clean_File();//清空文件
+          break;
+  ```
 
 # 三.C++提高编程
 
