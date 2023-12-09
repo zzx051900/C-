@@ -166,8 +166,8 @@
 
   - 库：`#include<stdlib.h>`
   - 函数：`rand();//生成的是随机数`
-  - 需要使用：`srand((unsigned int)time(NULL));//初始化随机数发生器，放在主函数前`
-  - time()函数来自库<time.h>
+  - 需要使用：`srand((unsigned int)time(NULL));//初始化随机数发生器，放在主函数最前`
+  - `time()`函数来自库`<time.h>`
 
 - 函数递归
 
