@@ -1,0 +1,39 @@
+/* --------------------------------------------------------------
+ * File          : switchcnt.bt
+ * Authors       : 西安电子科技大学:网络与信息安全国家级实验教学中心
+ * Created on    : <2024-02-01>
+ * Last modified : <2024-03-01>
+ * LICENSE       : 由实验教学中心拥有，分发需申请并征得同意
+ * -------------------------------------------------------------*/
+#include <linux/sched.h>
+
+struct task_struct {
+    u64 __opaque__;
+};
+
+BEGIN
+{
+  printf("使用: bpftrace ./switchcnt.bt [PID]\n");
+  printf("统计某进程的切换次数，按 Ctrl-C 显示结果\n\n");
+  @time = nsecs;
+}
+
+kprobe:dequeue_task_fair
+{
+    struct task_struct task = {};
+    int pid = 100; // 你关心的进程的PID
+
+    // 读取当前调度的进程
+    bpf_probe_read(&task, sizeof(task), (void *)bpf_get_current_task());
+
+    // 判断当前进程是否是你关心的进程
+    if (task.__opaque__ == pid) {
+        // 增加调度次数计数器
+        @switch_count++;
+    }
+}
+
+END {
+  @time = (nsecs-@time) / 1000000000; // 纳秒转秒
+}
+
