@@ -1,0 +1,31 @@
+#include <linux/sched.h>
+#include <linux/mm_types.h>
+
+interval:hz:10
+/ pid != 0 /
+{
+    struct task_struct *task = (struct task_struct *)bpf_get_current_task();
+    if (!task)
+        return 0;
+
+    struct mm_struct *mm = task->mm;
+    if (!mm)
+        return 0;
+
+    // 获取代码段信息
+    u64 code_start = mm->start_code;
+    u64 code_end = mm->end_code;
+
+    // 获取数据段信息
+    u64 data_start = mm->start_data;
+    u64 data_end = mm->end_data;
+
+    // 获取栈信息
+    u64 stack_start = mm->start_stack;
+
+    // 输出信息（你可以根据需要自行处理输出）
+    bpf_trace_printk("Process PID: %d\n", task->pid);
+    bpf_trace_printk("Code segment: [0x%llx - 0x%llx]\n", code_start, code_end);
+    bpf_trace_printk("Data segment: [0x%llx - 0x%llx]\n", data_start, data_end);
+    bpf_trace_printk("Stack start: 0x%llx\n", stack_start);
+}

@@ -1,0 +1,66 @@
+SYSCALL_DEFINE3(peep_page, pid_t, tar_pid_nr, unsigned long, tar_addr, unsigned long, my_addr)
+{
+    struct task_struct *tar_task;
+    struct mm_struct *tar_mm;
+    struct vm_area_struct *vma;
+    unsigned long copied;
+    pte_t *pte_tar, *pte_my;
+    struct page *page;
+
+    printk("peep_page: running!\n");
+
+    // 获取进程 A 的 task_struct 结构
+    tar_task = get_pid_task(find_vpid(tar_pid_nr), PIDTYPE_PID);
+    if (!tar_task) {
+        printk("peep_page: failed to find target process!\n");
+        return -ESRCH; // 进程不存在
+    }
+
+    tar_mm = get_task_mm(tar_task);
+    if (!tar_mm) {
+        printk("peep_page: failed to get memory descriptor for target process!\n");
+        return -EINVAL; // 无效参数
+    }
+
+    // 获取进程 A 中地址对应的页表项
+    pte_tar = addr_to_pte(tar_mm, tar_addr);
+    if (!pte_tar) {
+        printk("peep_page: failed to find target page table entry!\n");
+        return -EFAULT; // 地址无效
+    }
+
+    // 在进程 B 中映射进程 A 的页面
+    if (remap_pfn_range(current->mm, my_addr, pte_pfn(*pte_tar), PAGE_SIZE, PAGE_SHARED)) {
+        printk("peep_page: failed to map target page!\n");
+        return -ENOMEM; // 内存不足
+    }
+
+    // 映射一个页面到进程 B 的地址空间
+    page = alloc_page(GFP_KERNEL);
+    if (!page) {
+        printk("peep_page: failed to allocate page!\n");
+        return -ENOMEM; // 内存不足
+    }
+
+    // 获取进程 B 中地址对应的页表项
+    pte_my = addr_to_pte(current->mm, my_addr);
+    if (!pte_my) {
+        printk("peep_page: failed to find my page table entry!\n");
+        return -EFAULT; // 地址无效
+    }
+
+    // 复制进程 A 中页面的内容到进程 B 中的页面
+    copied = copy_from_user(page_address(page), (void *)tar_addr, PAGE_SIZE);
+    if (copied != 0) {
+        printk("peep_page: failed to copy page content!\n");
+        return -EFAULT; // 内核空间到用户空间的复制失败
+    }
+
+    // 将页面映射到进程 B 的地址空间
+    set_pte(pte_my, mk_pte(page, PAGE_KERNEL));
+
+    // 清理资源
+    put_task_mm(tar_mm);
+    put_task_struct(tar_task);
+    return 0;
+}
